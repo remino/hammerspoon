@@ -2,9 +2,9 @@ keyboardAlert = nil
 currentLayout = hs.keycodes.currentSourceID()
 
 keyboardLayoutTable = {
-	EN = {"com.apple.keylayout.Canadian", "0"},
-	FR = {"com.apple.keylayout.Canadian-CSA", "9"},
-	JA = {"com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese", "8"},
+	EN = { "com.apple.keylayout.Canadian", "0" },
+	FR = { "com.apple.keylayout.Canadian-CSA", "9" },
+	JA = { "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese", "8" },
 }
 
 function formatKeyboardLayoutAlert(layoutName)
@@ -67,7 +67,7 @@ if getMacOSVersionMajor() < 14 then
 		fadeInDuration = 0,
 		fadeOutDuration = 0.30,
 	}
-	
+
 	hs.keycodes.inputSourceChanged(function()
 		newLayout = hs.keycodes.currentSourceID()
 
@@ -78,23 +78,19 @@ if getMacOSVersionMajor() < 14 then
 				hs.alert.closeSpecific(keyboardAlert)
 			end
 
-			keyboardAlert = hs.alert.show(
-				formatKeyboardLayoutAlert(currentLayout),
-				keyboardAlertStyle,
-				hs.screen.mainScreen(),
-				1
-			)
+			keyboardAlert =
+				hs.alert.show(formatKeyboardLayoutAlert(currentLayout), keyboardAlertStyle, hs.screen.mainScreen(), 1)
 		end
 	end)
 end
 
 for key, layout in pairs(keyboardLayoutTable) do
-	hs.hotkey.bind({"cmd", "shift", "ctrl"}, layout[2], function()
+	hs.hotkey.bind({ "cmd", "shift", "ctrl" }, layout[2], function()
 		switchKeyboardLayout(layout[1])
 	end)
 end
 
-local composeKeyWatch = hs.eventtap.new({hs.eventtap.event.types.keyDown}, function(event)
+local composeKeyWatch = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
 	-- 102 = Japanese eisu (英数) key
 	if event:getKeyCode() == 102 and hs.keycodes.currentSourceID() == keyboardLayoutTable["EN"][1] then
 		hs.eventtap.keyStroke({}, "§", 0)
@@ -105,18 +101,18 @@ local commands = {
 	{
 		text = "Function Keys: Toggle",
 		id = "keyboard:fnKeys:toggle",
-		callback = toggleFunctionKeys
+		callback = toggleFunctionKeys,
 	},
 	{
 		text = "Function Keys: As Media Keys",
 		id = "keyboard:fnKeys:media",
-		callback = setFunctioKeysAsMediaKeys
+		callback = setFunctioKeysAsMediaKeys,
 	},
 	{
 		text = "Function Keys: As F Keys",
 		id = "keyboard:fnKeys:fKeys",
-		callback = setFunctionKeysAsFKeys
-	}
+		callback = setFunctionKeysAsFKeys,
+	},
 }
 
 composeKeyWatch:start()
