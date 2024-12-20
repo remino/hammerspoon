@@ -90,13 +90,6 @@ for key, layout in pairs(keyboardLayoutTable) do
 	end)
 end
 
-local composeKeyWatch = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
-	-- 102 = Japanese eisu (英数) key
-	if event:getKeyCode() == 102 and hs.keycodes.currentSourceID() == keyboardLayoutTable["EN"][1] then
-		hs.eventtap.keyStroke({}, "§", 0)
-	end
-end)
-
 local commands = {
 	{
 		text = "Function Keys: Toggle",
@@ -115,5 +108,4 @@ local commands = {
 	},
 }
 
-composeKeyWatch:start()
 menu.registerCommands(commands)
