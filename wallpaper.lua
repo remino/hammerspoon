@@ -14,6 +14,14 @@ function wallpaper.updateOnWake(eventType)
 		:start()
 end
 
+menu.registerCommands({
+	{
+		text = "Reset Wallpaper",
+		id = "wallpaper.reset",
+		callback = wallpaper.reset,
+	},
+})
+
 hs.hotkey.bind({ "cmd", "shift", "ctrl" }, "p", function()
 	wallpaper.reset()
 end)
